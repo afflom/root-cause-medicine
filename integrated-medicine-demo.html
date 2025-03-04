@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Medicine Framework - Root Cause Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@4.1.17/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f3f4f6;
+            --text: #1f2937;
+            --eastern: #10b981;
+            --eastern-light: #a7f3d0;
+            --western: #3b82f6;
+            --western-light: #bfdbfe;
+            --integration: #8b5cf6;
+            --integration-light: #ddd6fe;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .app-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        /* Loading animation */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--light);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Integrated Medicine Framework</h1>
+        <p class="subtitle">Combining Eastern wisdom with Western precision for root-cause analysis</p>
+    </header>
+    
+    <div class="container">
+        <div class="app-container" id="root">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Integrated Medicine Framework: A Root-Cause Approach</p>
+        <p>© 2025 Universal Object Reference (UOR) Foundation</p>
+    </footer>
+    
+    <script type="text/babel">
+        // Create a component for the Root Cause Medicine Framework
+        const IntegratedMedicineDemo = () => {
+            const [currentStep, setCurrentStep] = React.useState(0);
+            const [isPlaying, setIsPlaying] = React.useState(false);
+            const [analysisComplete, setAnalysisComplete] = React.useState(false);
+            const [selectedPatient, setSelectedPatient] = React.useState('patient1');
+            const [diagnosisResult, setDiagnosisResult] = React.useState(null);
+            
+            // Timer reference for auto-play
+            const timerRef = React.useRef(null);
+            
+            // Total steps in the demonstration
+            const totalSteps = 6;
+            
+            // Auto-play functionality
+            React.useEffect(() => {
+                if (isPlaying) {
+                    timerRef.current = setTimeout(() => {
+                        if (currentStep < totalSteps - 1) {
+                            setCurrentStep(prevStep => prevStep + 1);
+                        } else {
+                            setIsPlaying(false);
+                        }
+                    }, 8000); // 8 seconds per step
+                } else {
+                    clearTimeout(timerRef.current);
+                }
+                
+                return () => clearTimeout(timerRef.current);
+            }, [isPlaying, currentStep]);
+            
+            // Handle navigation
+            const goToNextStep = () => {
+                if (currentStep < totalSteps - 1) {
+                    setCurrentStep(currentStep + 1);
+                }
+            };
+            
+            const goToPrevStep = () => {
+                if (currentStep > 0) {
+                    setCurrentStep(currentStep - 1);
+                }
+            };
+            
+            const togglePlay = () => {
+                setIsPlaying(!isPlaying);
+            };
+            
+            const resetDemo = () => {
+                setCurrentStep(0);
+                setIsPlaying(false);
+                setAnalysisComplete(false);
+                setDiagnosisResult(null);
+            };
+            
+            // Patient profiles
+            const patients = {
+                patient1: {
+                    name: "Patient A",
+                    age: 45,
+                    gender: "Female",
+                    westernSigns: [
+                        "Elevated inflammatory markers (CRP, ESR)",
+                        "Chronic fatigue",
+                        "Joint pain in hands and knees",
+                        "Mild fever (99.5°F)",
+                        "Normal blood pressure (120/80)",
+                        "Elevated ANA (Antinuclear Antibody)"
+                    ],
+                    easternSigns: [
+                        "Yin deficiency",
+                        "Liver qi stagnation",
+                        "Dampness accumulation",
+                        "Pale tongue with thin white coating",
+                        "Wiry pulse",
+                        "Cold extremities"
+                    ],
+                    diagnosis: {
+                        western: "Suspected Rheumatoid Arthritis",
+                        eastern: "Liver Qi Stagnation with Spleen Qi Deficiency",
+                        integrated: "Autoimmune-mediated inflammatory condition with underlying Qi and blood stagnation",
+                        rootCause: "Gut dysbiosis leading to systemic inflammation and immune dysregulation",
+                        treatment: "Integrated protocol addressing gut health, inflammation pathways, and energy flow restoration"
+                    }
+                },
+                patient2: {
+                    name: "Patient B",
+                    age: 52,
+                    gender: "Male",
+                    westernSigns: [
+                        "Elevated cortisol",
+                        "Insomnia",
+                        "High blood pressure (150/95)",
+                        "Elevated blood glucose (HbA1c 6.2%)",
+                        "Low testosterone",
+                        "Normal inflammatory markers"
+                    ],
+                    easternSigns: [
+                        "Heart yin deficiency",
+                        "Kidney yang deficiency",
+                        "Red tongue with thin yellow coating",
+                        "Rapid pulse",
+                        "Excessive sweating",
+                        "Mental restlessness"
+                    ],
+                    diagnosis: {
+                        western: "Metabolic Syndrome with Hypertension",
+                        eastern: "Heart and Kidney Disharmony",
+                        integrated: "Stress-induced HPA axis dysfunction with disrupted Kidney-Heart energy balance",
+                        rootCause: "Chronic stress leading to hormonal dysregulation and sympathetic dominance",
+                        treatment: "Stress management protocol with adaptogenic herbs, acupuncture, and metabolic support"
+                    }
+                },
+                patient3: {
+                    name: "Patient C",
+                    age: 35,
+                    gender: "Female",
+                    westernSigns: [
+                        "Normal blood tests",
+                        "IBS-like symptoms (alternating constipation/diarrhea)",
+                        "Headaches",
+                        "Normal blood pressure",
+                        "Normal blood glucose",
+                        "Negative for celiac disease"
+                    ],
+                    easternSigns: [
+                        "Spleen qi deficiency",
+                        "Liver qi stagnation",
+                        "Damp accumulation",
+                        "Pale tongue with teeth marks",
+                        "Deep, thready pulse",
+                        "Cold hands and feet"
+                    ],
+                    diagnosis: {
+                        western: "Irritable Bowel Syndrome (IBS)",
+                        eastern: "Spleen-Stomach Disharmony with Liver Qi Stagnation",
+                        integrated: "Enteric nervous system dysregulation with altered gut-brain communication",
+                        rootCause: "Food sensitivity (non-celiac gluten sensitivity) triggering intestinal permeability",
+                        treatment: "Elimination diet, gut healing protocol, and nervous system regulation"
+                    }
+                }
+            };
+            
+            // Run diagnosis and set results
+            const runDiagnosis = () => {
+                // Simulate processing
+                setAnalysisComplete(false);
+                
+                setTimeout(() => {
+                    setDiagnosisResult(patients[selectedPatient].diagnosis);
+                    setAnalysisComplete(true);
+                }, 1500);
+            };
+            
+            // Icons (simplified for demo)
+            const EasternIcon = () => (
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+            );
+            
+            const WesternIcon = () => (
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+            );
+            
+            const IntegratedIcon = () => (
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+            );
+            
+            // Step content
+            const steps = [
+                // Step 1: Introduction
+                {
+                    title: "The Challenge of Modern Medicine",
+                    content: (
+                        <div>
+                            <p>Modern healthcare faces complex challenges that single paradigms struggle to address. Patients often experience symptoms that don't fit neatly into established diagnostic categories.</p>
+                            
+                            <div className="visualization" style={{ height: "200px", position: "relative", margin: "20px 0", backgroundColor: "#f1f5f9", borderRadius: "8px", padding: "20px", overflow: "hidden" }}>
+                                {/* Eastern circle */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "25%", 
+                                    top: "50%", 
+                                    width: "100px", 
+                                    height: "100px", 
+                                    borderRadius: "50%", 
+                                    backgroundColor: "rgba(16, 185, 129, 0.2)", 
+                                    border: "2px solid #10b981", 
+                                    transform: "translate(-50%, -50%)",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "column"
+                                }}>
+                                    <div style={{ color: "#10b981" }}><EasternIcon /></div>
+                                    <div style={{ fontSize: "12px", fontWeight: "bold", marginTop: "5px", color: "#10b981" }}>Eastern Medicine</div>
+                                </div>
+                                
+                                {/* Western circle */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "75%", 
+                                    top: "50%", 
+                                    width: "100px", 
+                                    height: "100px", 
+                                    borderRadius: "50%", 
+                                    backgroundColor: "rgba(59, 130, 246, 0.2)", 
+                                    border: "2px solid #3b82f6", 
+                                    transform: "translate(-50%, -50%)",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "column"
+                                }}>
+                                    <div style={{ color: "#3b82f6" }}><WesternIcon /></div>
+                                    <div style={{ fontSize: "12px", fontWeight: "bold", marginTop: "5px", color: "#3b82f6" }}>Western Medicine</div>
+                                </div>
+                                
+                                {/* Gap illustration */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    width: "150px", 
+                                    height: "5px", 
+                                    backgroundColor: "#e5e7eb", 
+                                    transform: "translate(-50%, -50%)" 
+                                }}></div>
+                                
+                                {/* Question marks */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    transform: "translate(-50%, -50%)", 
+                                    fontSize: "24px", 
+                                    fontWeight: "bold",
+                                    color: "#6b7280"
+                                }}>?</div>
+                            </div>
+                            
+                            <p>Eastern medicine excels at pattern recognition and holistic connections, but may lack precision. Western medicine provides detailed diagnostics and interventions, but often focuses on symptoms rather than underlying causes.</p>
+                            
+                            <div style={{ 
+                                backgroundColor: "#f0f9ff", 
+                                borderLeft: "4px solid #3b82f6", 
+                                padding: "12px", 
+                                margin: "20px 0", 
+                                borderRadius: "0 8px 8px 0" 
+                            }}>
+                                <strong>Key Challenge:</strong> Finding the true root cause of complex conditions requires both the pattern recognition strengths of Eastern medicine and the diagnostic precision of Western approaches.
+                            </div>
+                        </div>
+                    )
+                },
+                
+                // Step 2: Axiom 1 - Reference Framework
+                {
+                    title: "Axiom 1: The Body-Energy Reference Framework",
+                    content: (
+                        <div>
+                            <p>Just as the Prime Framework begins with a Reference Manifold, the Integrated Medicine Framework establishes a unified reference system that maps both physical structures and energy pathways simultaneously.</p>
+                            
+                            <div className="visualization" style={{ height: "250px", position: "relative", margin: "20px 0", backgroundColor: "#f1f5f9", borderRadius: "8px", padding: "20px", overflow: "hidden" }}>
+                                {/* Human body outline */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    width: "80px", 
+                                    height: "200px", 
+                                    transform: "translate(-50%, -50%)", 
+                                    borderRadius: "40px 40px 0 0", 
+                                    border: "2px solid #6b7280",
+                                    backgroundColor: "rgba(243, 244, 246, 0.7)"
+                                }}>
+                                    {/* Head */}
+                                    <div style={{ 
+                                        position: "absolute", 
+                                        left: "50%", 
+                                        top: "15%", 
+                                        width: "40px", 
+                                        height: "40px", 
+                                        borderRadius: "50%", 
+                                        transform: "translate(-50%, -50%)", 
+                                        border: "2px solid #6b7280",
+                                        backgroundColor: "rgba(243, 244, 246, 0.7)"
+                                    }}></div>
+                                </div>
+                                
+                                {/* Western overlay (organs) */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    width: "70px", 
+                                    height: "100px", 
+                                    transform: "translate(-50%, -30%)", 
+                                    opacity: 0.7
+                                }}>
+                                    {/* Heart */}
+                                    <div style={{ 
+                                        position: "absolute", 
+                                        left: "40%", 
+                                        top: "30%", 
+                                        width: "20px", 
+                                        height: "20px", 
+                                        borderRadius: "50% 50% 50% 0", 
+                                        transform: "rotate(-45deg)", 
+                                        backgroundColor: "rgba(59, 130, 246, 0.5)", 
+                                        border: "1px solid #3b82f6" 
+                                    }}></div>
+                                    
+                                    {/* Lungs */}
+                                    <div style={{ 
+                                        position: "absolute", 
+                                        left: "25%", 
+                                        top: "35%", 
+                                        width: "15px", 
+                                        height: "25px", 
+                                        borderRadius: "50% 0 50% 50%", 
+                                        backgroundColor: "rgba(59, 130, 246, 0.3)", 
+                                        border: "1px solid #3b82f6" 
+                                    }}></div>
+                                    <div style={{ 
+                                        position: "absolute", 
+                                        left: "60%", 
+                                        top: "35%", 
+                                        width: "15px", 
+                                        height: "25px", 
+                                        borderRadius: "0 50% 50% 50%", 
+                                        backgroundColor: "rgba(59, 130, 246, 0.3)", 
+                                        border: "1px solid #3b82f6" 
+                                    }}></div>
+                                    
+                                    {/* Liver */}
+                                    <div style={{ 
+                                        position: "absolute", 
+                                        left: "30%", 
+                                        top: "60%", 
+                                        width: "25px", 
+                                        height: "20px", 
+                                        borderRadius: "5px", 
+                                        backgroundColor: "rgba(59, 130, 246, 0.4)", 
+                                        border: "1px solid #3b82f6" 
+                                    }}></div>
+                                    
+                                    {/* Intestines */}
+                                    <div style={{ 
+                                        position: "absolute", 
+                                        left: "40%", 
+                                        top: "75%", 
+                                        width: "30px", 
+                                        height: "20px", 
+                                        borderRadius: "5px", 
+                                        backgroundColor: "rgba(59, 130, 246, 0.35)", 
+                                        border: "1px solid #3b82f6" 
+                                    }}></div>
+                                </div>
+                                
+                                {/* Eastern overlay (meridians) */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    width: "90px", 
+                                    height: "210px", 
+                                    transform: "translate(-50%, -50%)", 
+                                    opacity: 0.7
+                                }}>
+                                    {/* Central meridian */}
+                                    <div style={{ 
+                                        position: "absolute", 
+                                        left: "50%", 
+                                        top: "10%", 
+                                        width: "2px", 
+                                        height: "80%", 
+                                        backgroundColor: "#10b981", 
+                                        transform: "translateX(-50%)" 
+                                    }}></div>
+                                    
+                                    {/* Horizontal connections */}
+                                    {[20, 35, 50, 65, 80].map((top, i) => (
+                                        <div key={i} style={{ 
+                                            position: "absolute", 
+                                            left: "25%", 
+                                            top: `${top}%`, 
+                                            width: "50%", 
+                                            height: "2px", 
+                                            backgroundColor: "#10b981" 
+                                        }}></div>
+                                    ))}
+                                    
+                                    {/* Energy points */}
+                                    {[20, 35, 50, 65, 80].map((top, i) => (
+                                        <React.Fragment key={i}>
+                                            <div style={{ 
+                                                position: "absolute", 
+                                                left: "25%", 
+                                                top: `${top}%`, 
+                                                width: "6px", 
+                                                height: "6px", 
+                                                borderRadius: "50%", 
+                                                backgroundColor: "#10b981", 
+                                                transform: "translate(-50%, -50%)" 
+                                            }}></div>
+                                            <div style={{ 
+                                                position: "absolute", 
+                                                left: "75%", 
+                                                top: `${top}%`, 
+                                                width: "6px", 
+                                                height: "6px", 
+                                                borderRadius: "50%", 
+                                                backgroundColor: "#10b981", 
+                                                transform: "translate(-50%, -50%)" 
+                                            }}></div>
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                                
+                                {/* Labels */}
+                                <div style={{ position: "absolute", left: "5px", top: "5px", color: "#3b82f6", fontSize: "12px", fontWeight: "bold" }}>Western: Anatomical</div>
+                                <div style={{ position: "absolute", right: "5px", top: "5px", color: "#10b981", fontSize: "12px", fontWeight: "bold" }}>Eastern: Energetic</div>
+                            </div>
+                            
+                            <p>This unified framework allows us to map both the physical biomarkers from Western medicine and the energy patterns from Eastern traditions onto the same reference system, creating a more complete picture of health and disease.</p>
+                            
+                            <div style={{ 
+                                backgroundColor: "#ecfdf5", 
+                                borderLeft: "4px solid #10b981", 
+                                padding: "12px", 
+                                margin: "20px 0", 
+                                borderRadius: "0 8px 8px 0" 
+                            }}>
+                                <strong>Principle:</strong> The Body-Energy Reference Framework provides the foundation for all diagnosis and treatment, mapping both physical structures and energy flows in relation to one another.
+                            </div>
+                        </div>
+                    )
+                },
+                
+                // Step 3: Axiom 2 - Diagnostic Fibers
+                {
+                    title: "Axiom 2: Diagnostic Fibers",
+                    content: (
+                        <div>
+                            <p>At each point in the Body-Energy framework, we attach Diagnostic Fibers—structured collections of both Western biomarker data and Eastern pattern observations that provide a complete picture at that point.</p>
+                            
+                            <div className="visualization" style={{ height: "280px", position: "relative", margin: "20px 0", backgroundColor: "#f1f5f9", borderRadius: "8px", padding: "20px", overflow: "hidden" }}>
+                                {/* Center point */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    width: "20px", 
+                                    height: "20px", 
+                                    borderRadius: "50%", 
+                                    backgroundColor: "#8b5cf6", 
+                                    transform: "translate(-50%, -50%)",
+                                    zIndex: 10
+                                }}></div>
+                                
+                                {/* Connection lines */}
+                                {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+                                    <div key={i} style={{ 
+                                        position: "absolute", 
+                                        left: "50%", 
+                                        top: "50%", 
+                                        width: "100px", 
+                                        height: "2px", 
+                                        backgroundColor: "#8b5cf6", 
+                                        transform: `translate(-50%, -50%) rotate(${angle}deg)`,
+                                        transformOrigin: "center",
+                                        opacity: 0.5
+                                    }}></div>
+                                ))}
+                                
+                                {/* Western data points (top hemisphere) */}
+                                {[45, 90, 135].map((angle, i) => (
+                                    <div key={i} style={{ 
+                                        position: "absolute", 
+                                        left: `${50 + Math.sin(angle * Math.PI / 180) * 40}%`, 
+                                        top: `${50 - Math.cos(angle * Math.PI / 180) * 40}%`, 
+                                        width: "50px", 
+                                        height: "30px", 
+                                        borderRadius: "5px", 
+                                        backgroundColor: "rgba(59, 130, 246, 0.2)", 
+                                        border: "1px solid #3b82f6",
+                                        transform: "translate(-50%, -50%)",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        fontSize: "10px",
+                                        color: "#1e40af",
+                                        textAlign: "center"
+                                    }}>
+                                        {i === 0 ? "Labs" : i === 1 ? "Imaging" : "Vitals"}
+                                    </div>
+                                ))}
+                                
+                                {/* Eastern data points (bottom hemisphere) */}
+                                {[225, 270, 315].map((angle, i) => (
+                                    <div key={i} style={{ 
+                                        position: "absolute", 
+                                        left: `${50 + Math.sin(angle * Math.PI / 180) * 40}%`, 
+                                        top: `${50 - Math.cos(angle * Math.PI / 180) * 40}%`, 
+                                        width: "50px", 
+                                        height: "30px", 
+                                        borderRadius: "5px", 
+                                        backgroundColor: "rgba(16, 185, 129, 0.2)", 
+                                        border: "1px solid #10b981",
+                                        transform: "translate(-50%, -50%)",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        fontSize: "10px",
+                                        color: "#047857",
+                                        textAlign: "center"
+                                    }}>
+                                        {i === 0 ? "Pulse" : i === 1 ? "Tongue" : "Meridians"}
+                                    </div>
+                                ))}
+                                
+                                {/* Left and right points (integrated) */}
+                                {[0, 180].map((angle, i) => (
+                                    <div key={i} style={{ 
+                                        position: "absolute", 
+                                        left: `${50 + Math.sin(angle * Math.PI / 180) * 40}%`, 
+                                        top: `${50 - Math.cos(angle * Math.PI / 180) * 40}%`, 
+                                        width: "50px", 
+                                        height: "30px", 
+                                        borderRadius: "5px", 
+                                        backgroundColor: "rgba(139, 92, 246, 0.2)", 
+                                        border: "1px solid #8b5cf6",
+                                        transform: "translate(-50%, -50%)",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        fontSize: "10px",
+                                        color: "#5b21b6",
+                                        textAlign: "center"
+                                    }}>
+                                        {i === 0 ? "Systems" : "Patterns"}
+                                    </div>
+                                ))}
+                                
+                                {/* Labels */}
+                                <div style={{ position: "absolute", left: "50%", top: "15%", color: "#3b82f6", fontSize: "14px", fontWeight: "bold", transform: "translateX(-50%)" }}>Western Diagnostics</div>
+                                <div style={{ position: "absolute", left: "50%", top: "85%", color: "#10b981", fontSize: "14px", fontWeight: "bold", transform: "translateX(-50%)" }}>Eastern Assessments</div>
+                                <div style={{ position: "absolute", left: "50%", top: "50%", color: "#8b5cf6", fontSize: "12px", fontWeight: "bold", transform: "translate(-50%, 20px)" }}>Diagnostic Core</div>
+                            </div>
+                            
+                            <p>These Diagnostic Fibers collect and organize information through multiple lenses, from laboratory biomarkers to tongue diagnosis patterns, integrating them into a multidimensional analysis structure.</p>
+                            
+                            <div style={{ 
+                                backgroundColor: "#f5f3ff", 
+                                borderLeft: "4px solid #8b5cf6", 
+                                padding: "12px", 
+                                margin: "20px 0", 
+                                borderRadius: "0 8px 8px 0" 
+                            }}>
+                                <strong>Implementation:</strong> Each patient assessment collects data for all dimensions of the diagnostic fibers, ensuring no critical information is missed regardless of medical tradition.
+                            </div>
+                        </div>
+                    )
+                },
+                
+                // Step 4: Axiom 3 - Pattern Symmetry
+                {
+                    title: "Axiom 3: Pattern Symmetry Groups",
+                    content: (
+                        <div>
+                            <p>The framework identifies fundamental pattern symmetries that remain invariant across both Eastern and Western observations. These symmetries form transformation groups that allow us to map between different presentations of the same underlying condition.</p>
+                            
+                            <div className="visualization" style={{ height: "260px", position: "relative", margin: "20px 0", backgroundColor: "#f1f5f9", borderRadius: "8px", padding: "20px", overflow: "hidden" }}>
+                                {/* Central transformation hub */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    width: "60px", 
+                                    height: "60px", 
+                                    borderRadius: "50%", 
+                                    backgroundColor: "rgba(139, 92, 246, 0.2)", 
+                                    border: "2px solid #8b5cf6", 
+                                    transform: "translate(-50%, -50%)",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center"
+                                }}>
+                                    <div style={{ color: "#8b5cf6" }}><IntegratedIcon /></div>
+                                </div>
+                                
+                                {/* Symmetry arrows */}
+                                {[0, 60, 120, 180, 240, 300].map((angle, i) => {
+                                    const isWestern = (i % 2 === 0);
+                                    const color = isWestern ? "#3b82f6" : "#10b981";
+                                    const bgColor = isWestern ? "rgba(59, 130, 246, 0.2)" : "rgba(16, 185, 129, 0.2)";
+                                    const label = isWestern ? 
+                                        ["Inflammation", "Autoimmunity", "Metabolic"][Math.floor(i/2)] : 
+                                        ["Deficiency", "Stagnation", "Heat/Cold"][Math.floor(i/2)];
+                                    
+                                    return (
+                                        <React.Fragment key={i}>
+                                            {/* Arrow line */}
+                                            <div style={{ 
+                                                position: "absolute", 
+                                                left: "50%", 
+                                                top: "50%", 
+                                                width: "80px", 
+                                                height: "2px", 
+                                                backgroundColor: color, 
+                                                transform: `translate(0, 0) rotate(${angle}deg)`,
+                                                transformOrigin: "left center"
+                                            }}></div>
+                                            
+                                            {/* Arrow head */}
+                                            <div style={{ 
+                                                position: "absolute", 
+                                                left: `${50 + Math.cos(angle * Math.PI / 180) * 80}%`, 
+                                                top: `${50 + Math.sin(angle * Math.PI / 180) * 80}%`, 
+                                                width: "0", 
+                                                height: "0", 
+                                                borderLeft: "5px solid transparent",
+                                                borderRight: "5px solid transparent",
+                                                borderBottom: `8px solid ${color}`,
+                                                transform: `translate(-50%, -50%) rotate(${angle + 90}deg)`
+                                            }}></div>
+                                            
+                                            {/* Pattern label */}
+                                            <div style={{ 
+                                                position: "absolute", 
+                                                left: `${50 + Math.cos(angle * Math.PI / 180) * 100}%`, 
+                                                top: `${50 + Math.sin(angle * Math.PI / 180) * 100}%`, 
+                                                width: "80px", 
+                                                height: "30px", 
+                                                borderRadius: "5px", 
+                                                backgroundColor: bgColor, 
+                                                border: `1px solid ${color}`,
+                                                transform: "translate(-50%, -50%)",
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                fontSize: "10px",
+                                                color: isWestern ? "#1e40af" : "#047857",
+                                                textAlign: "center"
+                                            }}>
+                                                {label}
+                                            </div>
+                                        </React.Fragment>
+                                    );
+                                })}
+                                
+                                {/* Labels */}
+                                <div style={{ position: "absolute", left: "50%", top: "15%", color: "#8b5cf6", fontSize: "14px", fontWeight: "bold", transform: "translateX(-50%)" }}>Pattern Symmetry Groups</div>
+                            </div>
+                            
+                            <p>These pattern symmetries allow us to translate between seemingly different diagnoses. For example, the Western concept of "inflammation" and the Eastern concept of "heat" share common transformational properties, allowing us to map between these different paradigms.</p>
+                            
+                            <div style={{ 
+                                backgroundColor: "#faf5ff", 
+                                borderLeft: "4px solid #8b5cf6", 
+                                padding: "12px", 
+                                margin: "20px 0", 
+                                borderRadius: "0 8px 8px 0" 
+                            }}>
+                                <strong>Clinical Application:</strong> The pattern symmetry groups reveal that Western "autoimmune disorders" and Eastern "Yin deficiency with Wind invasion" share fundamental transformation properties that point to common underlying mechanisms.
+                            </div>
+                        </div>
+                    )
+                },
+                
+                // Step 5: Axiom 4 - Root Cause Coherence
+                {
+                    title: "Axiom 4: Root Cause Coherence",
+                    content: (
+                        <div>
+                            <p>The Root Cause Coherence principle identifies the minimum-energy explanation that unifies all observed patterns and symptoms. This principle finds the most elegant "solution" that explains both Western and Eastern observations with minimal complexity.</p>
+                            
+                            <div className="visualization" style={{ height: "280px", position: "relative", margin: "20px 0", backgroundColor: "#f1f5f9", borderRadius: "8px", padding: "20px", overflow: "hidden" }}>
+                                {/* Symptom nodes (outer circle) */}
+                                {[0, 40, 80, 120, 160, 200, 240, 280, 320].map((angle, i) => {
+                                    const isWestern = (i % 3 === 0);
+                                    const isEastern = (i % 3 === 1);
+                                    const isIntegrated = (i % 3 === 2);
+                                    
+                                    let color, bgColor, label, textColor;
+                                    
+                                    if (isWestern) {
+                                        color = "#3b82f6";
+                                        bgColor = "rgba(59, 130, 246, 0.2)";
+                                        textColor = "#1e40af";
+                                        label = ["Joint Pain", "Fatigue", "Headache"][Math.floor(i/3)];
+                                    } else if (isEastern) {
+                                        color = "#10b981";
+                                        bgColor = "rgba(16, 185, 129, 0.2)";
+                                        textColor = "#047857";
+                                        label = ["Qi Deficiency", "Liver Stagnation", "Dampness"][Math.floor(i/3)];
+                                    } else {
+                                        color = "#8b5cf6";
+                                        bgColor = "rgba(139, 92, 246, 0.2)";
+                                        textColor = "#5b21b6";
+                                        label = ["Stress", "Diet", "Sleep"][Math.floor(i/3)];
+                                    }
+                                    
+                                    return (
+                                        <div key={i} style={{ 
+                                            position: "absolute", 
+                                            left: `${50 + Math.cos(angle * Math.PI / 180) * 40}%`, 
+                                            top: `${50 + Math.sin(angle * Math.PI / 180) * 40}%`, 
+                                            width: "60px", 
+                                            height: "25px", 
+                                            borderRadius: "5px", 
+                                            backgroundColor: bgColor, 
+                                            border: `1px solid ${color}`,
+                                            transform: "translate(-50%, -50%)",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: "9px",
+                                            color: textColor,
+                                            textAlign: "center"
+                                        }}>
+                                            {label}
+                                        </div>
+                                    );
+                                })}
+                                
+                                {/* Connection lines to the center */}
+                                {[0, 40, 80, 120, 160, 200, 240, 280, 320].map((angle, i) => {
+                                    const isWestern = (i % 3 === 0);
+                                    const isEastern = (i % 3 === 1);
+                                    
+                                    let color;
+                                    if (isWestern) {
+                                        color = "#3b82f6";
+                                    } else if (isEastern) {
+                                        color = "#10b981";
+                                    } else {
+                                        color = "#8b5cf6";
+                                    }
+                                    
+                                    return (
+                                        <div key={i} style={{ 
+                                            position: "absolute", 
+                                            left: "50%", 
+                                            top: "50%", 
+                                            width: "40px", 
+                                            height: "1px", 
+                                            backgroundColor: color, 
+                                            transform: `translate(0, 0) rotate(${angle}deg)`,
+                                            transformOrigin: "left center",
+                                            opacity: 0.5
+                                        }}></div>
+                                    );
+                                })}
+                                
+                                {/* Root cause (center) */}
+                                <div style={{ 
+                                    position: "absolute", 
+                                    left: "50%", 
+                                    top: "50%", 
+                                    width: "80px", 
+                                    height: "80px", 
+                                    borderRadius: "50%", 
+                                    backgroundColor: "#f9a8d4", 
+                                    border: "2px solid #ec4899", 
+                                    transform: "translate(-50%, -50%)",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "column",
+                                    padding: "5px",
+                                    boxShadow: "0 0 15px rgba(236, 72, 153, 0.3)"
+                                }}>
+                                    <div style={{ fontSize: "10px", fontWeight: "bold", color: "#be185d", textAlign: "center" }}>ROOT CAUSE</div>
+                                    <div style={{ fontSize: "9px", color: "#9d174d", textAlign: "center", marginTop: "2px" }}>Gut Dysbiosis</div>
+                                </div>
+                                
+                                {/* Labels */}
+                                <div style={{ position: "absolute", left: "10px", top: "10px", color: "#3b82f6", fontSize: "11px", fontWeight: "bold" }}>Western Symptoms</div>
+                                <div style={{ position: "absolute", right: "10px", top: "10px", color: "#10b981", fontSize: "11px", fontWeight: "bold" }}>Eastern Patterns</div>
+                                <div style={{ position: "absolute", left: "50%", bottom: "10px", color: "#8b5cf6", fontSize: "11px", fontWeight: "bold", transform: "translateX(-50%)" }}>Functional Factors</div>
+                            </div>
+                            
+                            <p>The Root Cause Coherence principle calculates the minimal-energy explanation that unifies all observed patterns. Just as physical systems tend toward minimum energy states, the integrated diagnosis identifies the most elegant root cause that explains all symptoms with minimal complexity.</p>
+                            
+                            <div style={{ 
+                                backgroundColor: "#fdf2f8", 
+                                borderLeft: "4px solid #ec4899", 
+                                padding: "12px", 
+                                margin: "20px 0", 
+                                borderRadius: "0 8px 8px 0" 
+                            }}>
+                                <strong>Insight:</strong> When Eastern and Western observations are unified, new emergent patterns become visible that neither system could detect alone. These integrated patterns often reveal the true root cause that was previously obscured.
+                            </div>
+                        </div>
+                    )
+                },
+                
+                // Step 6: Integration and Application
+                {
+                    title: "Practical Implementation",
+                    content: (
+                        <div>
+                            <p>The Integrated Medicine Framework transforms diagnosis and treatment by identifying root causes that would be missed by either tradition alone.</p>
+                            
+                            <div style={{ 
+                                padding: "20px", 
+                                backgroundColor: "white", 
+                                borderRadius: "8px", 
+                                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.05)", 
+                                margin: "20px 0" 
+                            }}>
+                                <h3 style={{ marginBottom: "15px", color: "#8b5cf6" }}>Patient Analysis Demo</h3>
+                                
+                                <div style={{ marginBottom: "20px" }}>
+                                    <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Select Patient:</label>
+                                    <select 
+                                        value={selectedPatient} 
+                                        onChange={(e) => setSelectedPatient(e.target.value)}
+                                        style={{ 
+                                            padding: "8px", 
+                                            borderRadius: "5px", 
+                                            border: "1px solid #d1d5db", 
+                                            width: "100%" 
+                                        }}
+                                    >
+                                        <option value="patient1">Patient A - 45F with joint pain and fatigue</option>
+                                        <option value="patient2">Patient B - 52M with hypertension and insomnia</option>
+                                        <option value="patient3">Patient C - 35F with digestive issues</option>
+                                    </select>
+                                </div>
+                                
+                                <div style={{ 
+                                    display: "grid", 
+                                    gridTemplateColumns: "1fr 1fr", 
+                                    gap: "15px", 
+                                    marginBottom: "20px" 
+                                }}>
+                                    <div style={{ 
+                                        padding: "10px", 
+                                        backgroundColor: "#eff6ff", 
+                                        borderRadius: "5px", 
+                                        border: "1px solid #bfdbfe" 
+                                    }}>
+                                        <h4 style={{ fontSize: "14px", color: "#1e40af", marginBottom: "8px" }}>Western Signs</h4>
+                                        <ul style={{ fontSize: "12px", paddingLeft: "20px" }}>
+                                            {patients[selectedPatient].westernSigns.map((sign, i) => (
+                                                <li key={i} style={{ marginBottom: "4px" }}>{sign}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style={{ 
+                                        padding: "10px", 
+                                        backgroundColor: "#ecfdf5", 
+                                        borderRadius: "5px", 
+                                        border: "1px solid #a7f3d0" 
+                                    }}>
+                                        <h4 style={{ fontSize: "14px", color: "#047857", marginBottom: "8px" }}>Eastern Signs</h4>
+                                        <ul style={{ fontSize: "12px", paddingLeft: "20px" }}>
+                                            {patients[selectedPatient].easternSigns.map((sign, i) => (
+                                                <li key={i} style={{ marginBottom: "4px" }}>{sign}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <button 
+                                    onClick={runDiagnosis}
+                                    style={{ 
+                                        backgroundColor: "#8b5cf6", 
+                                        color: "white", 
+                                        border: "none", 
+                                        padding: "10px 15px", 
+                                        borderRadius: "5px", 
+                                        fontWeight: "bold", 
+                                        cursor: "pointer", 
+                                        width: "100%" 
+                                    }}
+                                >
+                                    Run Integrated Analysis
+                                </button>
+                                
+                                {diagnosisResult && (
+                                    <div style={{ 
+                                        marginTop: "20px", 
+                                        padding: "15px", 
+                                        backgroundColor: "#faf5ff", 
+                                        borderRadius: "5px", 
+                                        border: "1px solid #ddd6fe",
+                                        animation: "fadeIn 0.5s ease-in"
+                                    }}>
+                                        <h4 style={{ color: "#5b21b6", marginBottom: "10px" }}>Diagnostic Results</h4>
+                                        
+                                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "15px" }}>
+                                            <div style={{ fontSize: "12px" }}>
+                                                <strong style={{ color: "#1e40af" }}>Western Diagnosis:</strong>
+                                                <div>{diagnosisResult.western}</div>
+                                            </div>
+                                            
+                                            <div style={{ fontSize: "12px" }}>
+                                                <strong style={{ color: "#047857" }}>Eastern Diagnosis:</strong>
+                                                <div>{diagnosisResult.eastern}</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style={{ marginBottom: "10px", fontSize: "12px" }}>
+                                            <strong style={{ color: "#5b21b6" }}>Integrated Analysis:</strong>
+                                            <div>{diagnosisResult.integrated}</div>
+                                        </div>
+                                        
+                                        <div style={{ 
+                                            marginTop: "15px", 
+                                            padding: "10px", 
+                                            backgroundColor: "#fdf2f8", 
+                                            borderRadius: "5px", 
+                                            border: "1px solid #fbcfe8",
+                                            fontSize: "12px"
+                                        }}>
+                                            <strong style={{ color: "#be185d" }}>Root Cause:</strong>
+                                            <div>{diagnosisResult.rootCause}</div>
+                                            
+                                            <div style={{ marginTop: "10px" }}>
+                                                <strong style={{ color: "#be185d" }}>Recommended Treatment Approach:</strong>
+                                                <div>{diagnosisResult.treatment}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                {!analysisComplete && diagnosisResult && (
+                                    <div style={{ 
+                                        display: "flex", 
+                                        justifyContent: "center", 
+                                        padding: "20px" 
+                                    }}>
+                                        <div style={{ 
+                                            width: "30px", 
+                                            height: "30px", 
+                                            borderRadius: "50%", 
+                                            border: "3px solid #ddd", 
+                                            borderTopColor: "#8b5cf6", 
+                                            animation: "spin 1s linear infinite" 
+                                        }}></div>
+                                    </div>
+                                )}
+                            </div>
+                            
+                            <p>By implementing the four axioms of the Integrated Medicine Framework, we can identify root causes that would be missed by either tradition alone, leading to more effective and personalized treatment strategies.</p>
+                            
+                            <div style={{ 
+                                display: "grid", 
+                                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
+                                gap: "15px", 
+                                margin: "20px 0" 
+                            }}>
+                                <div style={{ 
+                                    padding: "15px", 
+                                    backgroundColor: "#f9fafb", 
+                                    borderRadius: "8px", 
+                                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                                    borderTop: "3px solid #3b82f6"
+                                }}>
+                                    <h4 style={{ fontSize: "14px", color: "#1e40af", marginBottom: "8px" }}>Western Medicine Alone</h4>
+                                    <p style={{ fontSize: "12px" }}>Provides detailed biomarker analysis but may miss energy imbalances and functional connections between systems.</p>
+                                </div>
+                                
+                                <div style={{ 
+                                    padding: "15px", 
+                                    backgroundColor: "#f9fafb", 
+                                    borderRadius: "8px", 
+                                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                                    borderTop: "3px solid #10b981"
+                                }}>
+                                    <h4 style={{ fontSize: "14px", color: "#047857", marginBottom: "8px" }}>Eastern Medicine Alone</h4>
+                                    <p style={{ fontSize: "12px" }}>Excels at pattern recognition but may lack precision in identifying specific pathological mechanisms.</p>
+                                </div>
+                                
+                                <div style={{ 
+                                    padding: "15px", 
+                                    backgroundColor: "#f9fafb", 
+                                    borderRadius: "8px", 
+                                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                                    borderTop: "3px solid #8b5cf6"
+                                }}>
+                                    <h4 style={{ fontSize: "14px", color: "#5b21b6", marginBottom: "8px" }}>Integrated Framework</h4>
+                                    <p style={{ fontSize: "12px" }}>Combines the strengths of both approaches while offsetting their individual limitations, revealing true root causes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+            ];
+            
+            // Step navigation indicators
+            const renderStepIndicators = () => {
+                return (
+                    <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+                        {steps.map((step, index) => (
+                            <div 
+                                key={index}
+                                onClick={() => setCurrentStep(index)}
+                                style={{ 
+                                    width: "12px", 
+                                    height: "12px", 
+                                    borderRadius: "50%", 
+                                    backgroundColor: currentStep === index ? "var(--accent)" : "#d1d5db", 
+                                    margin: "0 5px",
+                                    cursor: "pointer",
+                                    transition: "all 0.3s ease"
+                                }}
+                            ></div>
+                        ))}
+                    </div>
+                );
+            };
+            
+            // Navigation controls
+            const renderControls = () => {
+                return (
+                    <div style={{ 
+                        display: "flex", 
+                        justifyContent: "space-between", 
+                        alignItems: "center", 
+                        margin: "30px 0 10px" 
+                    }}>
+                        <button 
+                            onClick={goToPrevStep}
+                            disabled={currentStep === 0}
+                            style={{ 
+                                padding: "8px 15px", 
+                                backgroundColor: currentStep === 0 ? "#e5e7eb" : "var(--primary)", 
+                                color: currentStep === 0 ? "#9ca3af" : "white", 
+                                border: "none", 
+                                borderRadius: "5px", 
+                                cursor: currentStep === 0 ? "default" : "pointer", 
+                                display: "flex", 
+                                alignItems: "center" 
+                            }}
+                        >
+                            <span style={{ marginRight: "5px" }}>←</span> Previous
+                        </button>
+                        
+                        <div style={{ display: "flex", gap: "10px" }}>
+                            <button 
+                                onClick={resetDemo}
+                                style={{ 
+                                    padding: "8px 15px", 
+                                    backgroundColor: "white", 
+                                    color: "var(--text)", 
+                                    border: "1px solid #d1d5db", 
+                                    borderRadius: "5px", 
+                                    cursor: "pointer" 
+                                }}
+                            >
+                                Reset
+                            </button>
+                            
+                            <button 
+                                onClick={togglePlay}
+                                style={{ 
+                                    padding: "8px 15px", 
+                                    backgroundColor: isPlaying ? "var(--secondary)" : "var(--primary-light)", 
+                                    color: "white", 
+                                    border: "none", 
+                                    borderRadius: "5px", 
+                                    cursor: "pointer" 
+                                }}
+                            >
+                                {isPlaying ? "Pause" : "Auto-Play"}
+                            </button>
+                        </div>
+                        
+                        <button 
+                            onClick={goToNextStep}
+                            disabled={currentStep === totalSteps - 1}
+                            style={{ 
+                                padding: "8px 15px", 
+                                backgroundColor: currentStep === totalSteps - 1 ? "#e5e7eb" : "var(--primary)", 
+                                color: currentStep === totalSteps - 1 ? "#9ca3af" : "white", 
+                                border: "none", 
+                                borderRadius: "5px", 
+                                cursor: currentStep === totalSteps - 1 ? "default" : "pointer", 
+                                display: "flex", 
+                                alignItems: "center" 
+                            }}
+                        >
+                            Next <span style={{ marginLeft: "5px" }}>→</span>
+                        </button>
+                    </div>
+                );
+            };
+            
+            return (
+                <div style={{ padding: "20px" }}>
+                    <h2 style={{ 
+                        fontSize: "1.8rem", 
+                        marginBottom: "10px", 
+                        color: "var(--primary)" 
+                    }}>
+                        {steps[currentStep].title}
+                    </h2>
+                    
+                    {renderStepIndicators()}
+                    
+                    <div style={{ minHeight: "500px" }}>
+                        {steps[currentStep].content}
+                    </div>
+                    
+                    {renderControls()}
+                    
+                    <style>
+                        {`
+                            @keyframes fadeIn {
+                                from { opacity: 0; }
+                                to { opacity: 1; }
+                            }
+                            
+                            @keyframes spin {
+                                0% { transform: rotate(0deg); }
+                                100% { transform: rotate(360deg); }
+                            }
+                        `}
+                    </style>
+                </div>
+            );
+        };
+
+        // Render our application
+        ReactDOM.render(<IntegratedMedicineDemo />, document.getElementById('root'));
+    </script>
+</body>
+</html>
